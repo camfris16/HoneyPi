@@ -16,3 +16,7 @@ fi
 # updating OS
 echo "Just updating the OS if it needs to be"
 sudo apt-get update && sudo apt-get upgrade -y
+
+# Changing MAC address to windows machine
+echo "Now changing the MAC Address to disguise the pi as a Windows machine. WARRNING: Config files will start being edited now"
+echo "smsc95xx.macaddr=F0:6E:0B:A7:53:D5" >> /boot/cmdline.txt
