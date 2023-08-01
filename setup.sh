@@ -20,3 +20,10 @@ sudo apt-get update && sudo apt-get upgrade -y
 # Changing MAC address to windows machine
 echo "Now changing the MAC Address to disguise the pi as a Windows machine. WARRNING: Config files will start being edited now"
 echo "smsc95xx.macaddr=F0:6E:0B:A7:53:D5" >> /boot/cmdline.txt
+
+# Changing Hostname 
+echo "Updating hostname to reflect the MAC Address and disguise the pi"
+echo $(sed 's/.*127.0.0.1.*/127.0.0.1 FILESERVER./' /etc/hosts) > /etc/hosts
+echo "FILESERVER" > /etc/hostname
+
+echo "----DEVICE HIDDEN----"
