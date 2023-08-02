@@ -23,7 +23,7 @@ echo "smsc95xx.macaddr=F0:6E:0B:A7:53:D5" >> /boot/cmdline.txt
 
 # Changing Hostname 
 echo "Updating hostname to reflect the MAC Address and disguise the pi"
-echo $(sed 's/.*127.0.0.1.*/127.0.0.1 FILESERVER./' /etc/hosts) > /etc/hosts
+sed -i 's/.*127.0.0.1.*/127.0.0.1       FILESERVER /' /etc/hosts
 echo "FILESERVER" > /etc/hostname
 
 echo "----DEVICE HIDDEN----"
