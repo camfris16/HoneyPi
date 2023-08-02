@@ -27,3 +27,6 @@ sed -i 's/.*127.0.0.1.*/127.0.0.1       FILESERVER /' /etc/hosts
 echo "FILESERVER" > /etc/hostname
 
 echo "----DEVICE HIDDEN----"
+
+echo "Now installing the required software, such as port scan detection etc. Full list can be found in README.md"
+apt-get -y install psad python-twisted iptables-persistent fwsnort iptables-persistent libnotify-bin
