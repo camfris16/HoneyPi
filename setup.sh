@@ -28,6 +28,15 @@ echo "FILESERVER" > /etc/hostname
 
 echo "----DEVICE HIDDEN----"
 
+# Enabling SSH
+echo "----Enabling SSH if it isn't already----"
+touch /boot/ssh
+
+# Changing default SSH port
+echo "----Changing default SSH port to 9001 for remote access (Default port will be a target!)----"
+echo "----Port numbers can be found on README.md----"
+sed -i 's/#Port 22/Port 9001/' /etc/ssh/sshd_config
+
 # Software installation
 echo "----Now installing the required software, such as port scan detection etc. Full list can be found in README.md----"
 apt-get -y install psad iptables-persistent fwsnort iptables-persistent libnotify-bin
