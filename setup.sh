@@ -14,19 +14,23 @@ else
 fi
 
 # updating OS
-echo "Just updating the OS if it needs to be"
+echo "----Just updating the OS if it needs to be----"
 sudo apt-get update && sudo apt-get upgrade -y
 
 # Changing MAC address to windows machine
-echo "Now changing the MAC Address to disguise the pi as a Windows machine. WARRNING: Config files will start being edited now"
-echo "smsc95xx.macaddr=F0:6E:0B:A7:53:D5" >> /boot/cmdline.txt
+echo "----Now changing the MAC Address to disguise the pi as a Windows machine. WARRNING: Config files will start being edited now----"
+sed -i 's/$/ smsc95xx.macaddr=F0:6E:0B:A7:53:D5/' /boot/cmdline.txt
 
 # Changing Hostname 
-echo "Updating hostname to reflect the MAC Address and disguise the pi"
+echo "----Updating hostname to reflect the MAC Address and disguise the pi----"
 sed -i 's/.*127.0.0.1.*/127.0.0.1       FILESERVER /' /etc/hosts
 echo "FILESERVER" > /etc/hostname
 
 echo "----DEVICE HIDDEN----"
 
-echo "Now installing the required software, such as port scan detection etc. Full list can be found in README.md"
-apt-get -y install psad python-twisted iptables-persistent fwsnort iptables-persistent libnotify-bin
+# Software installation
+echo "----Now installing the required software, such as port scan detection etc. Full list can be found in README.md----"
+apt-get -y install psad iptables-persistent fwsnort iptables-persistent libnotify-bin
+sudo pip3 install Twisted
+
+# Coniguring psad
