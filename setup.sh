@@ -7,7 +7,7 @@ then
  exit 1
 fi
 
-if (whiptail --yesno "Welcome to the HoneyPi Installer! This program will make some changes to the Raspberry Pi (Changing MAC Address etc.) so enter 'no' now to exit or 'yes' to continue" 20 60); then
+if (whiptail --yesno "Welcome to the HoneyPi Installer! This program will make some changes to the Raspberry Pi (Changing MAC Address etc.) so enter 'no' now to exit or 'yes' to continue. An email address will also be needed to send notifications to, so have one ready!" 20 60); then
     echo "continue"
 else
     exit 1
@@ -42,4 +42,24 @@ echo "----Now installing the required software, such as port scan detection etc.
 apt-get -y install psad iptables-persistent fwsnort iptables-persistent libnotify-bin
 sudo pip3 install Twisted
 
+# Email input
+email=$(whiptail --inputbox "Please provide the email address you wish notifications to be sent to: " 20 60 3>&1 1>&2 2>&3)
+
 # Coniguring psad
+echo "----Now configuring psad with the email you have provided using the psad.conf file----"
+sed -i "s/__emailaddress__/$email/g" psad.conf
+cp psad.conf /etc/psad/psad.conf # replace current config file with updated one
+# Configuring ip logging
+echo "----Updating the ip tables to enable logging.----"
+sudo iptables -A INPUT -i lo -j ACCEPT # allow internal services to communicate
+sudo iptables -A INPUT -m conntrack --ctstate ESTABLISHED,RELATED -j ACCEPT # allow traffic for existing connections
+sudo iptables -A INPUT -p tcp --dport 9001 -j ACCEPT # allow ssh on alternate port that was configured
+sudo iptables -A INPUT -j LOG # enable logging
+sudo iptables -A FORWARD -j LOG # forward traffic
+sudo iptables -A INPUT -j DROP # drop all other traffic
+# sudo service iptables-persistent start # keep after reboot uncomment once tested
+# enable psad
+sudo psad --sig-update
+sudo service psad restart
+echo "----Port scanning attacks should now be monitored----"
+
