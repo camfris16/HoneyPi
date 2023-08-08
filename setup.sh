@@ -41,6 +41,8 @@ sed -i 's/#Port 22/Port 9001/' /etc/ssh/sshd_config
 echo "----Now installing the required software, such as port scan detection etc. Full list can be found in README.md----"
 apt-get -y install psad iptables-persistent fwsnort iptables-persistent libnotify-bin
 sudo pip3 install Twisted
+sudo pip install cryptography==38.0.4
+sudo pip install pyopenssl==22.0.0
 
 # Email input
 email=$(whiptail --inputbox "Please provide the email address you wish notifications to be sent to: " 20 60 3>&1 1>&2 2>&3)
@@ -62,4 +64,10 @@ sudo iptables -A INPUT -j DROP # drop all other traffic
 sudo psad --sig-update
 sudo service psad restart
 echo "----Port scanning attacks should now be monitored----"
+
+# directory to store everything
+mkdir /bin/HoneyPi
+echo "---The running script can be found in /bin/HoneyPi----"
+cp HoneyPot.py /bin/HoneyPi
+
 
