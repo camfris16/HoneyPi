@@ -30,3 +30,18 @@ class TELNETClass(Protocol):
         printable("Incoming TELNET connection from %s port %s"% (self.transport.getPeer().host, self.transport.getPeer().port))
         self.transport.write(telnetResponse)
         printable("Response sent") 
+
+FTPService = Factory()
+FTPService.protocol = FTPClass
+
+SSHService = Factory()
+SSHService.protocol = SSHClass
+
+TELNETService = Factory()
+TELNETService.protocol = TELNETClass
+
+printable("Starting HoneyPot...")
+reactor.listenTCP(21, FTPService, interface = interface)
+reactor.listenTCP(23, TELNETService, interface = interface)
+reactor.listenTCP(22, SSHService, interface = interface)
+reactor.run()
