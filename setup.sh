@@ -39,10 +39,7 @@ sed -i 's/#Port 22/Port 9001/' /etc/ssh/sshd_config
 
 # Software installation
 echo "----Now installing the required software, such as port scan detection etc. Full list can be found in README.md----"
-apt-get -y install psad iptables-persistent fwsnort iptables-persistent libnotify-bin
-sudo pip3 install Twisted
-sudo pip install cryptography==38.0.4
-sudo pip install pyopenssl==22.0.0
+apt-get -y install psad iptables-persistent fwsnort iptables-persistent libnotify-bin python3-twisted
 
 # Email input
 email=$(whiptail --inputbox "Please provide the email address you wish notifications to be sent to: " 20 60 3>&1 1>&2 2>&3)
@@ -50,12 +47,15 @@ email=$(whiptail --inputbox "Please provide the email address you wish notificat
 # Coniguring psad
 echo "----Now configuring psad with the email you have provided using the psad.conf file----"
 sed -i "s/__emailaddress__/$email/g" psad.conf
-cp psad.conf /etc/psad/psad.conf # replace current config file with updated one
+sudo cp psad.conf /etc/psad/psad.conf # replace current config file with updated one
 # Configuring ip logging
 echo "----Updating the ip tables to enable logging.----"
 sudo iptables -A INPUT -i lo -j ACCEPT # allow internal services to communicate
 sudo iptables -A INPUT -m conntrack --ctstate ESTABLISHED,RELATED -j ACCEPT # allow traffic for existing connections
 sudo iptables -A INPUT -p tcp --dport 9001 -j ACCEPT # allow ssh on alternate port that was configured
+sudo iptables -A INPUT -p tcp --dport 22 -j ACCEPT # allow ssh for detection
+sudo iptables -A INPUT -p tcp --dport 23 -j ACCEPT # allow telnet for detection
+sudo iptables -A INPUT -p tcp --dport 21 -j ACCEPT # allow ftp for detection 
 sudo iptables -A INPUT -j LOG # enable logging
 sudo iptables -A FORWARD -j LOG # forward traffic
 sudo iptables -A INPUT -j DROP # drop all other traffic
@@ -69,5 +69,7 @@ echo "----Port scanning attacks should now be monitored----"
 mkdir /bin/HoneyPi
 echo "---The running script can be found in /bin/HoneyPi----"
 cp HoneyPot.py /bin/HoneyPi
+# runs on reboot
+(crontab -l 2>/dev/null; echo "@reboot sudo python /bin/HoneyPi/HoneyPot.py >> /bin/HoneyPi/log.txt &") | crontab -
 
 

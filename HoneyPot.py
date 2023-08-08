@@ -1,5 +1,5 @@
-from twisted.internet.protocol import Factory
-from twisted.internet import reactor, Protocol
+from twisted.internet.protocol import Protocol, Factory
+from twisted.internet import reactor
 import time, binascii
 
 #all interfaces
