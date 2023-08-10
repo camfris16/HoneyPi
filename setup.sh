@@ -66,10 +66,13 @@ sudo service psad restart
 echo "----Port scanning attacks should now be monitored----"
 
 # directory to store everything
-mkdir /bin/HoneyPi
-echo "---The running script can be found in /bin/HoneyPi----"
-cp HoneyPot.py /bin/HoneyPi
+mkdir /opt/HoneyPi
+echo "---The running script can be found in /opt/HoneyPi----"
+cp HoneyPot.py /opt/HoneyPi
 # runs on reboot
-(crontab -l 2>/dev/null; echo "@reboot sudo python /bin/HoneyPi/HoneyPot.py >> /bin/HoneyPi/log.txt &") | crontab -
-
-
+sudo touch logs.txt
+sudo chmod o+w logs.txt
+(sudo crontab -l 2>/dev/null; echo "@reboot python /opt/HoneyPi/HoneyPot.py >> /opt/HoneyPi/log.txt &") | crontab -
+ifconfig
+whiptail --msgbox "Everything is now completed, your pi will now reboot to enable everything, the hostname is now FILESERVER and the ip address may change aswell. Everything should run automatically!" 20 60
+sudo reboot
