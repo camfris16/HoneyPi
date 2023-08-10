@@ -59,6 +59,10 @@ sudo iptables -A INPUT -p tcp --dport 21 -j ACCEPT # allow ftp for detection
 sudo iptables -A INPUT -j LOG # enable logging
 sudo iptables -A FORWARD -j LOG # forward traffic
 sudo iptables -A INPUT -j DROP # drop all other traffic
+sudo service iptables-persistent start
+# iptables -A INPUT -j LOG
+# iptables -A FORWARD -j LOG
+
 # sudo service iptables-persistent start # keep after reboot uncomment once tested
 # enable psad
 sudo psad --sig-update
