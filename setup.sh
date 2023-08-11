@@ -75,5 +75,5 @@ sudo touch logs.txt
 sudo chmod o+w logs.txt
 (sudo crontab -l 2>/dev/null; echo "@reboot python /opt/HoneyPi/HoneyPot.py >> /opt/HoneyPi/log.txt &") | crontab -
 ifconfig
-whiptail --msgbox "Everything is now completed, your pi will now reboot to enable everything, the hostname is now FILESERVER and the ip address may change aswell. Everything should run automatically!" 20 60
+whiptail --msgbox "Everything is now completed, your pi will now reboot to enable everything, the hostname is now FILESERVER and the ip address may change aswell. Everything should run automatically on reboot!" 20 60
 sudo reboot
