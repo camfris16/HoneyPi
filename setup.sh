@@ -70,7 +70,7 @@ echo "----Port scanning attacks should now be monitored----"
 # directory to store everything
 mkdir /opt/HoneyPi
 echo "---The running script can be found in /opt/HoneyPi----"
-cp Honeypot.py /opt/HoneyPi
+cp HoneyPot.py /opt/HoneyPi
 # runs on reboot
 sudo touch /opt/HoneyPi/logs.txt
 sudo chmod o+w /opt/HoneyPi/logs.txt
