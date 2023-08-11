@@ -72,9 +72,9 @@ mkdir /opt/HoneyPi
 echo "---The running script can be found in /opt/HoneyPi----"
 cp Honeypot.py /opt/HoneyPi
 # runs on reboot
-sudo touch logs.txt
-sudo chmod o+w logs.txt
-(sudo crontab -l 2>/dev/null; echo "@reboot python /opt/HoneyPi/HoneyPot.py >> /opt/HoneyPi/log.txt &") | crontab -
+sudo touch /opt/HoneyPi/logs.txt
+sudo chmod o+w /opt/HoneyPi/logs.txt
+(sudo crontab -l 2>/dev/null; echo "@reboot python /opt/HoneyPi/HoneyPot.py >> /opt/HoneyPi/logs.txt &") | crontab -
 ifconfig
 whiptail --msgbox "Everything is now completed, your pi will now reboot to enable everything, the hostname is now FILESERVER and the ip address may change aswell. Everything should run automatically on reboot!" 20 60
 sudo reboot
