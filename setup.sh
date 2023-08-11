@@ -39,7 +39,7 @@ sed -i 's/#Port 22/Port 9001/' /etc/ssh/sshd_config
 
 # Software installation
 echo "----Now installing the required software, such as port scan detection etc. Full list can be found in README.md----"
-apt-get -y install psad iptables-persistent fwsnort iptables-persistent libnotify-bin python3-twisted
+sudo apt-get -y install psad fwsnort iptables-persistent libnotify-bin python3-twisted
 
 # Email input
 email=$(whiptail --inputbox "Please provide the email address you wish notifications to be sent to: " 20 60 3>&1 1>&2 2>&3)
@@ -59,7 +59,7 @@ sudo iptables -A INPUT -p tcp --dport 21 -j ACCEPT # allow ftp for detection
 sudo iptables -A INPUT -j LOG # enable logging
 sudo iptables -A FORWARD -j LOG # forward traffic
 sudo iptables -A INPUT -j DROP # drop all other traffic
-sudo service iptables-persistent start # keep after reboot
+sudo apt-get -y install iptables-persistent # keep after reboot
 
 # enable psad
 sudo psad --sig-update
@@ -69,7 +69,7 @@ echo "----Port scanning attacks should now be monitored----"
 # directory to store everything
 mkdir /opt/HoneyPi
 echo "---The running script can be found in /opt/HoneyPi----"
-cp HoneyPot.py /opt/HoneyPi
+cp Honeypot.py /opt/HoneyPi
 # runs on reboot
 sudo touch logs.txt
 sudo chmod o+w logs.txt
