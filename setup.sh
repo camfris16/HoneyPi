@@ -50,6 +50,7 @@ sed -i "s/__emailaddress__/$email/g" psad.conf
 sudo cp psad.conf /etc/psad/psad.conf # replace current config file with updated one
 # Configuring ip logging
 echo "----Updating the ip tables to enable logging.----"
+sudo iptables -F # flush any current rules
 sudo iptables -A INPUT -i lo -j ACCEPT # allow internal services to communicate
 sudo iptables -A INPUT -m conntrack --ctstate ESTABLISHED,RELATED -j ACCEPT # allow traffic for existing connections
 sudo iptables -A INPUT -p tcp --dport 9001 -j ACCEPT # allow ssh on alternate port that was configured
