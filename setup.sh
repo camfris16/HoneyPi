@@ -39,7 +39,7 @@ sed -i 's/#Port 22/Port 9001/' /etc/ssh/sshd_config
 
 # Software installation
 echo "----Now installing the required software, such as port scan detection etc. Full list can be found in README.md----"
-sudo apt-get -y install psad fwsnort iptables-persistent libnotify-bin python3-twisted
+sudo apt-get -y install psad fwsnort libnotify-bin python3-twisted
 
 # Email input
 email=$(whiptail --inputbox "Please provide the email address you wish notifications to be sent to: " 20 60 3>&1 1>&2 2>&3)
