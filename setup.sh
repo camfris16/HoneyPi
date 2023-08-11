@@ -74,7 +74,7 @@ cp Honeypot.py /opt/HoneyPi
 # runs on reboot
 sudo touch /opt/HoneyPi/logs.txt
 sudo chmod o+w /opt/HoneyPi/logs.txt
-(sudo crontab -l 2>/dev/null; echo "@reboot python /opt/HoneyPi/HoneyPot.py >> /opt/HoneyPi/logs.txt &") | crontab -
+(sudo crontab -l 2>/dev/null; echo "@reboot python /opt/HoneyPi/HoneyPot.py &") | crontab -
 ifconfig
 whiptail --msgbox "Everything is now completed, your pi will now reboot to enable everything, the hostname is now FILESERVER and the ip address may change aswell. Everything should run automatically on reboot!" 20 60
 sudo reboot
